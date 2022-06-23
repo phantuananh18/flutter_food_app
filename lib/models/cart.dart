@@ -5,7 +5,7 @@ class CartModel {
   String? timeStart;
   String? status;
   String? idVoucher;
-  double? sum;
+  double? total;
 
   CartModel(
       {this.idCart,
@@ -14,7 +14,7 @@ class CartModel {
       this.timeStart,
       this.status,
       this.idVoucher,
-      this.sum});
+      this.total});
 
   //receive data from server
   factory CartModel.fromMap(map) {
@@ -25,7 +25,7 @@ class CartModel {
         timeStart: map['timeStart'],
         status: map['status'],
         idVoucher: map['idVoucher'],
-        sum: map['sum']);
+        total: map['total']);
   }
 
   //sending data to our server
@@ -48,6 +48,6 @@ class CartModel {
         timeStart: json['timeStart'] as String,
         status: json['status'] as String,
         idVoucher: json['idVoucher'] as String,
-        sum: json['sum'] as double);
+        total: json['total'] as double);
   }
 }

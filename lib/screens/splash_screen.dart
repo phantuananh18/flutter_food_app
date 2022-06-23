@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_food_app/screens/login.dart';
+import 'package:flutter_food_app/screens/home.dart';
 import 'package:flutter_food_app/utils.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const LoginScreen())));
+            context, MaterialPageRoute(builder: (context) => const HomeScreen())));
   }
 
   @override

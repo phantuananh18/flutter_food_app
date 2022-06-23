@@ -97,18 +97,18 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     bool obscureText = false;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cập nhật thông tin'),
-        backgroundColor: primaryColor,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
-                  (route) => false).then((value) => _formKey.currentState!.reset());
-            },
-            icon: const Icon(Icons.arrow_back)),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Cập nhật thông tin'),
+      //   backgroundColor: primaryColor,
+      //   leading: IconButton(
+      //       onPressed: () {
+      //         Navigator.pushAndRemoveUntil(
+      //             context,
+      //             MaterialPageRoute(builder: (context) => const ProfileScreen()),
+      //             (route) => false).then((value) => _formKey.currentState!.reset());
+      //       },
+      //       icon: const Icon(Icons.arrow_back)),
+      // ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(16.0),

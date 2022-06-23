@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/global.dart';
+import 'package:flutter_food_app/screens/Home/guest_drawer.dart';
+import 'package:flutter_food_app/screens/Home/home_fragment.dart';
+import 'package:flutter_food_app/screens/Home/product_fragment.dart';
+import 'package:flutter_food_app/screens/Home/user_drawer.dart';
 import 'package:flutter_food_app/screens/favorite.dart';
 import 'package:flutter_food_app/screens/cart.dart';
 import 'package:flutter_food_app/screens/notification.dart';
-import 'package:flutter_food_app/screens/products.dart';
 import 'package:flutter_food_app/screens/profile.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_food_app/utils.dart';
 
@@ -19,19 +24,42 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   bool isLogin = false;
   List<Widget> screens = [
-    const ProductScreen(),
-    const CartScreen(),
+    const HomeFragment(),
+    const ProductsFragment(),
     const ProfileScreen(),
     const FavoriteScreen(),
     const NotiScreen(),
   ];
   void initialState() {
     super.initState();
+    if (currentUserGlb.uid != '') {
+      isLogin = true;
+      print(isLogin);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.search_sharp)),
+          IconButton(
+              onPressed: () {
+                if (currentUserGlb.uid != '') {
+                  Navigator.pushNamed(context, CartScreen.routeName);
+                } else {
+                  Fluttertoast.showToast(
+                      msg: 'Vui lòng đăng nhập', backgroundColor: primaryColor, fontSize: 18.0);
+                }
+              },
+              icon: const Icon(Icons.shopping_bag))
+        ],
+        backgroundColor: primaryColor,
+        title: const Center(
+          child: Text('A2T Food'),
+        ),
+      ),
       body: screens[selectedIndex],
       bottomNavigationBar: GNav(
         rippleColor: Colors.white,
@@ -53,8 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
             text: 'Trang chủ',
           ),
           GButton(
-            icon: Icons.shopping_cart,
-            text: 'Giỏ hàng',
+            icon: Icons.list,
+            text: 'Sản phẩm',
           ),
           GButton(
             icon: Icons.person,
@@ -72,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
       ),
+      drawer: isLogin ? const UserDrawer() : GuestDrawer(homeContext: context),
     );
   }
 }

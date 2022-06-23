@@ -60,16 +60,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thông tin'),
-        backgroundColor: primaryColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false),
-        ),
-        actions: [IconButton(onPressed: () => logout(context), icon: const Icon(Icons.logout))],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Thông tin'),
+      //   backgroundColor: primaryColor,
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back),
+      //     onPressed: () => Navigator.pushAndRemoveUntil(context,
+      //         MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false),
+      //   ),
+      //   actions: [IconButton(onPressed: () => logout(context), icon: const Icon(Icons.logout))],
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(

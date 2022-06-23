@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, avoid_unnecessary_containers
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/global.dart';
 import 'package:flutter_food_app/screens/home.dart';
 import 'package:flutter_food_app/screens/register.dart';
 import 'package:flutter_food_app/screens/reset_password.dart';
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         await _auth.signInWithEmailAndPassword(email: email, password: password).then((uid) {
+          currentUserGlb.uid = uid.toString();
           showDialog(
               context: context,
               builder: (context) {

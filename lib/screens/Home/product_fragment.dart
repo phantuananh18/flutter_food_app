@@ -1,29 +1,31 @@
+import 'dart:math';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/utils.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_food_app/firebase/product.dart';
-import 'package:flutter_food_app/models/product.dart';
-import 'package:flutter_food_app/models/product_type.dart';
-import 'dart:math';
-import 'package:flutter_food_app/screens/Home/refresh.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_food_app/firebase/product.dart';
+import 'package:flutter_food_app/models/product_type.dart';
+import 'package:flutter_food_app/models/product.dart';
+import 'package:flutter_food_app/screens/Home/item_product.dart';
+import 'package:flutter_food_app/screens/Home/refresh.dart';
 
-class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key}) : super(key: key);
-  static String routeName = '/products';
+class ProductsFragment extends StatefulWidget {
+  static String routeName = "/products";
+  const ProductsFragment({Key? key}) : super(key: key);
 
   @override
-  State<ProductScreen> createState() => _ProductScreenState();
+  State<ProductsFragment> createState() => _ProductFragmentState();
 }
 
-class _ProductScreenState extends State<ProductScreen> {
+class _ProductFragmentState extends State<ProductsFragment> {
   final keyRefresh = GlobalKey<RefreshIndicatorState>();
   final GlobalKey<RefreshIndicatorState> key = GlobalKey<RefreshIndicatorState>();
   List<ProductModel> _list = [];
   List<ProductTypeModel> _listCate = [];
   bool _isSelected = true;
   int _selectedIndex = -1;
-  List<int> dataLoad = [];
+  List<int> dataload = [];
   Future loadList() async {
     keyRefresh.currentState?.show();
     await Future.delayed(const Duration(microseconds: 4000));
@@ -31,7 +33,7 @@ class _ProductScreenState extends State<ProductScreen> {
     final data = List.generate(100, (_) => randon.nextInt(100));
     if (mounted) {
       setState(() {
-        dataLoad = data;
+        dataload = data;
       });
     }
   }
@@ -43,14 +45,14 @@ class _ProductScreenState extends State<ProductScreen> {
   FetchData() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-    var result = await ProductFirebase().getAll();
+    // var result = await ProductFirebase().getAll();
     var category = await ProductFirebase().getAllCate();
-    if (result == null) {
+    if (category == null) {
       print('unable');
     } else {
       setState(() {
-        _list = result;
-        _foundProduct = result;
+        // _list = result;
+        // _foundProduct = result;
         _listCate = category;
       });
     }
@@ -122,8 +124,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               padding: const EdgeInsets.all(10),
                               height: 30,
                               decoration: BoxDecoration(
-                                  color:
-                                      _selectedIndex == index ? Colors.teal.shade700 : Colors.white,
+                                  color: _selectedIndex == index ? primaryColor : Colors.white,
                                   borderRadius: const BorderRadius.all(Radius.circular(0))),
                               child: Text(
                                 '${_listCate[index].nameCate}',
@@ -136,15 +137,23 @@ class _ProductScreenState extends State<ProductScreen> {
                       }),
                 )
               ])),
-          // Expanded(
-          //     child: Container(
-          //         margin: const EdgeInsets.all(5),
-          //         child: RefreshWidget(
-          //             onRefresh: loadList,
-          //             key: key,
-          //             keyRefresh: keyRefresh,
-          //             child: StaggeredGrid.count(crossAxisCount: 3)
-          //             ))))
+          Expanded(
+              child: Container(
+                  margin: const EdgeInsets.all(5),
+                  child: RefreshWidget(
+                      onRefresh: loadList,
+                      key: key,
+                      keyRefresh: keyRefresh,
+                      child: StaggeredGridView.countBuilder(
+                        crossAxisSpacing: 4.0,
+                        mainAxisSpacing: 5.0,
+                        itemCount: _foundProduct.length,
+                        crossAxisCount: 4,
+                        itemBuilder: (BuildContext context, int index) => ItemProductScreen(
+                          product: _foundProduct[index],
+                        ),
+                        staggeredTileBuilder: (int index) => const StaggeredTile.fit(2),
+                      ))))
         ],
       ),
     );
